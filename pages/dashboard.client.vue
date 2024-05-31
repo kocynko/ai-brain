@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { api } from "@/convex/_generated/api";
-import { SignInButton, UserButton, useAuth } from "vue-clerk";
+import { UserButton, useUser } from "vue-clerk";
 import { ConvexQuery, useConvexMutation } from "@convex-vue/core";
 
-const { isSignedIn, userId } = useAuth();
+const { isLoaded, isSignedIn, user } = useUser();
 const createDocument = useConvexMutation(api.documents.createDocument);
 if (!isSignedIn.value) {
   navigateTo("/sign-in");
@@ -12,7 +12,7 @@ if (!isSignedIn.value) {
 
 <template>
   <header>
-    <h1>Hello from dashboard</h1>
+    <h1>Hello, {{ user?.firstName }}</h1>
     <UserButton v-if="isSignedIn" />
   </header>
   <main v-if="isSignedIn">
