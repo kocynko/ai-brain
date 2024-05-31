@@ -1,12 +1,35 @@
+import { Clerk, provideClerkToApp } from "vue-clerk/plugin";
 import { type Ref, computed, ref } from "vue";
 import { type Resources } from "@clerk/types";
-import { clerkPlugin } from "vue-clerk/plugin";
 import { createConvexVue } from "@convex-vue/core";
 
-export default defineNuxtPlugin((nuxtApp) => {
-  nuxtApp.vueApp.use(clerkPlugin, {
-    publishableKey: useRuntimeConfig().public.clerkPublishableKey as string,
+export default defineNuxtPlugin(async (nuxtApp) => {
+  const isClerkLoaded = ref(false);
+  const publishableKey = useRuntimeConfig().public
+    .clerkPublishableKey as string;
+
+  const clerk = new Clerk(publishableKey);
+
+  // Instead of using the `vue-clerk` plugin, we can use this internal function to create a Clerk instance.
+  provideClerkToApp(nuxtApp.vueApp, clerk, {
+    isClerkLoaded,
+    shouldLoadClerk: false,
+    clerkOptions: {}, // Optional since we run `clerk.load` manually
   });
+
+  // This will make sure that the clerk library is loaded in the client first before moving on to the next middleware.
+  await clerk.load({
+    routerPush: (to) => {
+      return navigateTo(to);
+    },
+    routerReplace: (to) => {
+      return navigateTo(to, { replace: true });
+    },
+    // localization: frFR,
+    // appearance: {}
+  });
+
+  isClerkLoaded.value = true;
 
   const authState: {
     isLoading: Ref<boolean>;
@@ -44,4 +67,10 @@ export default defineNuxtPlugin((nuxtApp) => {
       },
     }),
   );
+
+  return {
+    provide: {
+      clerk,
+    },
+  };
 });
