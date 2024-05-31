@@ -2,6 +2,7 @@
 
 <template>
   <div>
-    <NuxtPage />
+    <h1>Home</h1>
+    <NuxtLink to="/sign-in">Sign in</NuxtLink>
   </div>
 </template>

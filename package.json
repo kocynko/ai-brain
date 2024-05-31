@@ -10,11 +10,16 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@clerk/clerk-js": "^5.5.3",
     "@convex-vue/core": "^0.0.4",
+    "@nuxt/image": "^1.7.0",
     "@vueuse/core": "^10.10.0",
     "convex": "^1.12.1",
+    "h3": "^1.11.1",
+    "h3-clerk": "^0.4.3",
     "nuxt": "^3.11.2",
     "vue": "^3.4.27",
+    "vue-clerk": "^0.3.8",
     "vue-router": "^4.3.2"
   },
   "devDependencies": {
