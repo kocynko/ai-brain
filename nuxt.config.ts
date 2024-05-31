@@ -5,6 +5,7 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
+      convexUrl: process.env.CONVEX_URL,
     },
     clerkSecretKey: process.env.CLERK_SECRET_KEY,
   },
@@ -16,4 +17,5 @@ export default defineNuxtConfig({
   },
 
   modules: ["@nuxt/image"],
+  plugins: ["~/plugins/convex.client.ts"],
 });
