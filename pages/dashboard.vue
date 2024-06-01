@@ -2,6 +2,7 @@
 import { api } from "@/convex/_generated/api";
 import { UserButton, useUser } from "vue-clerk";
 import { ConvexQuery, useConvexMutation } from "@convex-vue/core";
+import { Button } from "~/components/ui/button";
 
 const { isLoaded, isSignedIn, user } = useUser();
 const createDocument = useConvexMutation(api.documents.createDocument);
@@ -11,15 +12,11 @@ if (!isSignedIn.value) {
 </script>
 
 <template>
-  <header>
-    <h1>Hello, {{ user?.firstName }}</h1>
-    <UserButton v-if="isSignedIn" />
-  </header>
   <main v-if="isSignedIn">
-    <button @click="() => createDocument.mutate({ title: 'Hello World' })">
-      Click
-    </button>
-    <div>
+    <Button @click="() => createDocument.mutate({ title: 'Hello World' })">
+      Click on me
+    </Button>
+    <div class="text-center">
       <ConvexQuery :query="api.documents.getDocuments" :args="{}">
         <template #loading>Loading documents</template>
 
@@ -38,11 +35,3 @@ if (!isSignedIn.value) {
     </div>
   </main>
 </template>
-
-<style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20;
-}
-</style>

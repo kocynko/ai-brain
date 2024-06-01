@@ -1,7 +1,13 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   devtools: { enabled: true },
-  css: ["~/assets/css/main.css"],
+  css: ["~/assets/css/tailwind.css"],
+  ssr: false,
+  modules: ["@nuxt/image", "@nuxtjs/tailwindcss", "shadcn-nuxt"],
+  plugins: ["~/plugins/convex.client.ts"],
+  build: {
+    transpile: ["vue-clerk", "@clerk/clerk-js"],
+  },
   runtimeConfig: {
     public: {
       clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
@@ -15,7 +21,15 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-
-  modules: ["@nuxt/image"],
-  plugins: ["~/plugins/convex.client.ts"],
+  shadcn: {
+    /**
+     * Prefix for all the imported component
+     */
+    prefix: "",
+    /**
+     * Directory that the component lives in.
+     * @default "./components/ui"
+     */
+    componentDir: "./components/ui",
+  },
 });
