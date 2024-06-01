@@ -8,5 +8,5 @@
 <script setup lang="ts">
 import { useUser, UserButton } from "vue-clerk";
 
-const { isSignedIn, user } = useUser();
+const { isSignedIn } = useUser();
 </script>

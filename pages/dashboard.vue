@@ -1,11 +1,9 @@
 <script setup lang="ts">
 import { api } from "@/convex/_generated/api";
-import { UserButton, useUser } from "vue-clerk";
-import { ConvexQuery, useConvexMutation } from "@convex-vue/core";
-import { Button } from "~/components/ui/button";
+import { useUser } from "vue-clerk";
+import { ConvexQuery } from "@convex-vue/core";
 
-const { isLoaded, isSignedIn, user } = useUser();
-const createDocument = useConvexMutation(api.documents.createDocument);
+const { isSignedIn } = useUser();
 if (!isSignedIn.value) {
   navigateTo("/sign-in");
 }
@@ -13,11 +11,13 @@ if (!isSignedIn.value) {
 
 <template>
   <ClientOnly>
-    <main v-if="isSignedIn">
-      <Button @click="() => createDocument.mutate({ title: 'Hello World' })">
-        Click on me
-      </Button>
-      <div class="text-center">
+    <main v-if="isSignedIn" class="space-y-8 p-24">
+      <div class="flex items-center justify-between">
+        <h1 class="text-4xl font-bold">My documents</h1>
+        <CreateDocumentButton />
+      </div>
+
+      <div class="grid grid-cols-4 gap-8">
         <ConvexQuery :query="api.documents.getDocuments" :args="{}">
           <template #loading>Loading documents</template>
 
@@ -26,18 +26,9 @@ if (!isSignedIn.value) {
           <template #empty>No documents</template>
 
           <template #default="{ data: documents }">
-            <ul>
-              <li
-                v-for="document in documents"
-                :key="document._id"
-                class="py-2"
-              >
-                {{ document.title }}
-              </li>
-            </ul>
+            <DocumentCard v-for="document in documents" :document="document" />
           </template>
         </ConvexQuery>
-      </div>
-    </main></ClientOnly
-  >
+      </div></main
+  ></ClientOnly>
 </template>

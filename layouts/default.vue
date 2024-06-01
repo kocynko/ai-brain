@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center justify-center gap-5">
+  <div>
     <header class="container mx-auto flex items-center justify-between py-4">
       <div class="flex items-center justify-center gap-4">
         <NuxtImg
@@ -15,11 +15,13 @@
         <HeaderActions />
       </div>
     </header>
-    <slot />
+    <div class="container mx-auto">
+      <slot />
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import ModeToggle from "~/components/ui/ModeToggle.vue";
-import HeaderActions from "~/components/HeaderActions.client.vue";
+import HeaderActions from "~/components/HeaderActions.vue";
 </script>
