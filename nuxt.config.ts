@@ -3,7 +3,12 @@ export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
   ssr: false,
-  modules: ["@nuxt/image", "@nuxtjs/tailwindcss", "shadcn-nuxt"],
+  modules: [
+    "@nuxt/image",
+    "@nuxtjs/tailwindcss",
+    "shadcn-nuxt",
+    "@nuxtjs/color-mode",
+  ],
   plugins: ["~/plugins/convex.client.ts"],
   build: {
     transpile: ["vue-clerk", "@clerk/clerk-js"],
@@ -31,5 +36,8 @@ export default defineNuxtConfig({
      * @default "./components/ui"
      */
     componentDir: "./components/ui",
+  },
+  colorMode: {
+    classSuffix: "",
   },
 });
