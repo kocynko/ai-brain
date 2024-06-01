@@ -12,26 +12,32 @@ if (!isSignedIn.value) {
 </script>
 
 <template>
-  <main v-if="isSignedIn">
-    <Button @click="() => createDocument.mutate({ title: 'Hello World' })">
-      Click on me
-    </Button>
-    <div class="text-center">
-      <ConvexQuery :query="api.documents.getDocuments" :args="{}">
-        <template #loading>Loading documents</template>
+  <ClientOnly>
+    <main v-if="isSignedIn">
+      <Button @click="() => createDocument.mutate({ title: 'Hello World' })">
+        Click on me
+      </Button>
+      <div class="text-center">
+        <ConvexQuery :query="api.documents.getDocuments" :args="{}">
+          <template #loading>Loading documents</template>
 
-        <template #error="{ error }">{{ error }}</template>
+          <template #error="{ error }">{{ error }}</template>
 
-        <template #empty>No documents</template>
+          <template #empty>No documents</template>
 
-        <template #default="{ data: documents }">
-          <ul>
-            <li v-for="document in documents" :key="document._id" class="py-2">
-              {{ document.title }}
-            </li>
-          </ul>
-        </template>
-      </ConvexQuery>
-    </div>
-  </main>
+          <template #default="{ data: documents }">
+            <ul>
+              <li
+                v-for="document in documents"
+                :key="document._id"
+                class="py-2"
+              >
+                {{ document.title }}
+              </li>
+            </ul>
+          </template>
+        </ConvexQuery>
+      </div>
+    </main></ClientOnly
+  >
 </template>

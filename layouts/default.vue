@@ -12,8 +12,7 @@
       </div>
       <div class="flex items-center justify-between gap-4">
         <ModeToggle />
-        <div v-if="!isSignedIn"><NuxtLink to="/sign-in">Sign in</NuxtLink></div>
-        <div v-else><UserButton /></div>
+        <HeaderActions />
       </div>
     </header>
     <slot />
@@ -21,16 +20,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUser, UserButton } from "vue-clerk";
 import ModeToggle from "~/components/ui/ModeToggle.vue";
-
-const { isSignedIn, user } = useUser();
+import HeaderActions from "~/components/HeaderActions.client.vue";
 </script>
-
-<style scoped>
-header {
-  display: flex;
-  justify-content: space-between;
-  padding: 20;
-}
-</style>
