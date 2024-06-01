@@ -1,11 +1,19 @@
 <template>
   <div class="flex flex-col items-center justify-center gap-5">
     <header class="container mx-auto flex items-center justify-between py-4">
-      <h1 class="text-xl">AiBrain</h1>
-      <div v-if="isSignedIn" class="flex items-center justify-center gap-4">
-        <h2>{{ user?.fullName }}</h2>
+      <div class="flex items-center justify-center gap-4">
+        <NuxtImg
+          src="logo.svg"
+          width="50"
+          height="50"
+          alt="Logo image"
+        ></NuxtImg>
+        <h1 class="text-xl">AiBrain</h1>
+      </div>
+      <div class="flex items-center justify-between gap-4">
         <ModeToggle />
-        <UserButton />
+        <div v-if="!isSignedIn"><NuxtLink to="/sign-in">Sign in</NuxtLink></div>
+        <div v-else><UserButton /></div>
       </div>
     </header>
     <slot />

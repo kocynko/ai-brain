@@ -8,8 +8,5 @@ if (isSignedIn.value) {
 </script>
 
 <template>
-  <div>
-    <h1>Home</h1>
-    <NuxtLink to="/sign-in">Sign in</NuxtLink>
-  </div>
+  <div>Index</div>
 </template>

@@ -3,6 +3,7 @@ import { SignIn } from "vue-clerk";
 
 definePageMeta({
   middleware: ["public"],
+  layout: false,
 });
 </script>
 
