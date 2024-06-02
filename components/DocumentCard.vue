@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/card";
 import type { Doc } from "~/convex/_generated/dataModel";
 import Button from "./ui/button/Button.vue";
-import { Eye } from "lucide-vue-next";
+import { Eye, Loader2 } from "lucide-vue-next";
 defineProps<{
   document: Doc<"documents">;
 }>();
@@ -21,7 +21,11 @@ defineProps<{
       <CardTitle>{{ document.title }}</CardTitle>
       <CardDescription></CardDescription>
     </CardHeader>
-    <CardContent> Card Content </CardContent>
+    <CardContent
+      ><Loader2 v-if="!document.description" class="animate-spin" />{{
+        document.description
+      }}
+    </CardContent>
     <CardFooter>
       <Button asChild variant="secondary" class="flex items-center gap-2"
         ><NuxtLink :href="'/documents/' + document._id"

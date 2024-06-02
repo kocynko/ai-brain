@@ -1,5 +1,7 @@
 import {
   action,
+  internalAction,
+  internalMutation,
   internalQuery,
   mutation,
   MutationCtx,
@@ -58,10 +60,34 @@ export const createDocument = mutation({
     if (!userId) {
       throw new ConvexError("Not authenticated");
     }
-    await ctx.db.insert("documents", {
+    const documentId = await ctx.db.insert("documents", {
       title: args.title,
       tokenIdentifier: userId,
       storageId: args.storageId,
+      description: "",
+    });
+
+    console.log(documentId);
+
+    await ctx.scheduler.runAfter(
+      0,
+      internal.documents.generateDocumentDescription,
+      {
+        storageId: args.storageId,
+        documentId,
+      },
+    );
+  },
+});
+
+export const updateDocumentDescription = internalMutation({
+  args: {
+    documentId: v.id("documents"),
+    description: v.string(),
+  },
+  async handler(ctx, args) {
+    await ctx.db.patch(args.documentId, {
+      description: args.description,
     });
   },
 });
@@ -92,6 +118,46 @@ export const hasAccessToDocumentQuery = internalQuery({
   },
   async handler(ctx, args) {
     return await hasAccessToDocument(ctx, args);
+  },
+});
+
+export const generateDocumentDescription = internalAction({
+  args: {
+    storageId: v.id("_storage"),
+    documentId: v.id("documents"),
+  },
+  async handler(ctx, args) {
+    const file = await ctx.storage.get(args.storageId);
+
+    if (!file) {
+      throw new ConvexError("File not found");
+    }
+
+    const text = await file.text();
+
+    const chatCompletion: OpenAI.Chat.Completions.ChatCompletion =
+      await openai.chat.completions.create({
+        messages: [
+          {
+            role: "system",
+            content: `Here is text file context: ${text}`,
+          },
+          {
+            role: "user",
+            content: `Please generate 1 sentence description of provided document`,
+          },
+        ],
+        model: "gpt-3.5-turbo",
+      });
+
+    const response =
+      chatCompletion.choices[0].message.content ??
+      "Couldnt generate the description";
+
+    await ctx.runMutation(internal.documents.updateDocumentDescription, {
+      documentId: args.documentId,
+      description: response,
+    });
   },
 });
 

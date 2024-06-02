@@ -20,7 +20,7 @@ if (!isSignedIn.value) {
 
       <ConvexQuery :query="api.documents.getDocuments" :args="{}">
         <template #loading
-          ><div class="grid grid-cols-4 gap-8">
+          ><div class="grid grid-cols-3 gap-8">
             <Card
               class="flex flex-col justify-between gap-2 p-6"
               v-for="i in 7"
@@ -43,7 +43,7 @@ if (!isSignedIn.value) {
         </template>
 
         <template #default="{ data: documents }">
-          <div class="grid grid-cols-4 gap-8">
+          <div class="grid grid-cols-3 gap-8">
             <DocumentCard v-for="document in documents" :document="document" />
           </div>
         </template>
