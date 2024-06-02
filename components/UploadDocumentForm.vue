@@ -13,7 +13,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { useConvexMutation } from "@convex-vue/core";
 import { api } from "@/convex/_generated/api";
-import { Loader2 } from "lucide-vue-next";
+import type { Id } from "~/convex/_generated/dataModel";
 
 const props = defineProps({
   onUpload: {
@@ -22,19 +22,31 @@ const props = defineProps({
   },
 });
 
+const createDocument = useConvexMutation(api.documents.createDocument);
+const generateUploadUrl = useConvexMutation(api.documents.generateUploadUrl);
+
 const formSchema = toTypedSchema(
   z.object({
     title: z.string().min(2).max(50).default(""),
+    file: z.instanceof(File),
   }),
 );
 
 const form = useForm({
   validationSchema: formSchema,
 });
-const createDocument = useConvexMutation(api.documents.createDocument);
 const onSubmit = form.handleSubmit(async (values) => {
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  await createDocument.mutate(values);
+  const url = await generateUploadUrl.mutate({});
+  const result = await fetch(url as string, {
+    method: "POST",
+    headers: { "Content-Type": values.file.type },
+    body: values.file,
+  });
+  const { storageId } = await result.json();
+  await createDocument.mutate({
+    title: values.title,
+    storageId: storageId as Id<"_storage">,
+  });
   props.onUpload();
 });
 </script>
@@ -52,6 +64,16 @@ const onSubmit = form.handleSubmit(async (values) => {
           />
         </FormControl>
         <FormDescription> This is your public display name. </FormDescription>
+        <FormMessage />
+      </FormItem>
+    </FormField>
+    <FormField v-slot="{ handleChange, handleBlur }" name="file">
+      <FormItem>
+        <FormLabel>File</FormLabel>
+        <FormControl>
+          <Input type="file" @change="handleChange" @blur="handleBlur" />
+        </FormControl>
+        <FormDescription> This is the file. </FormDescription>
         <FormMessage />
       </FormItem>
     </FormField>

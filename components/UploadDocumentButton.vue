@@ -9,6 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { Upload } from "lucide-vue-next";
 const isOpen = ref(false);
 
 function closeDialog() {
@@ -19,7 +20,9 @@ function closeDialog() {
 <template>
   <Dialog v-model:open="isOpen">
     <DialogTrigger asChild>
-      <Button> Upload document </Button>
+      <Button class="flex items-center gap-2"
+        ><Upload class="h-4 w-4" /> Upload document
+      </Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>

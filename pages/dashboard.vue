@@ -14,7 +14,7 @@ if (!isSignedIn.value) {
     <main v-if="isSignedIn" class="space-y-8 p-24">
       <div class="flex items-center justify-between">
         <h1 class="text-4xl font-bold">My documents</h1>
-        <CreateDocumentButton />
+        <UploadDocumentButton />
       </div>
 
       <div class="grid grid-cols-4 gap-8">

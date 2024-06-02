@@ -3,7 +3,7 @@
     <header class="container mx-auto flex items-center justify-between py-4">
       <div class="flex items-center justify-center gap-4">
         <NuxtImg
-          src="logo.svg"
+          src="logo.png"
           width="50"
           height="50"
           alt="Logo image"
