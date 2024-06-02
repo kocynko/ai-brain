@@ -22,6 +22,7 @@
     "h3-clerk": "^0.4.3",
     "lucide-vue-next": "^0.381.0",
     "nuxt": "^3.11.2",
+    "openai": "^4.47.3",
     "radix-vue": "^1.8.2",
     "shadcn-nuxt": "^0.10.4",
     "tailwind-merge": "^2.3.0",

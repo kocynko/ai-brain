@@ -9,21 +9,67 @@
       <div class="bg-gray-800 p-4">World</div>
       <div class="bg-gray-800 p-4">World</div>
     </div>
-    <div class="flex gap-1">
-      <form
-        @submit="
-          (event) => {
-            event.preventDefault();
-            // call convex
-          }
-        "
+    <form @submit="onSubmit" class="flex gap-3">
+      <FormField v-slot="{ componentField }" name="question">
+        <FormItem>
+          <FormControl>
+            <Input
+              type="text"
+              placeholder="Ask a question"
+              v-bind="componentField"
+            />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+      </FormField>
+      <LoadingButton
+        :is-loading="form.isSubmitting.value"
+        loading-text="Ai is thinking...."
+        >Ask</LoadingButton
       >
-        <Input name="text"></Input> <Button>Submit</Button>
-      </form>
-    </div>
+    </form>
   </div>
 </template>
+
 <script setup lang="ts">
-import Button from "./ui/button/Button.vue";
+import { api } from "~/convex/_generated/api";
 import Input from "./ui/input/Input.vue";
+import { useConvexAction } from "@convex-vue/core";
+import type { Id } from "~/convex/_generated/dataModel";
+import { useForm, useResetForm } from "vee-validate";
+import { toTypedSchema } from "@vee-validate/zod";
+import * as z from "zod";
+import {
+  FormControl,
+  FormField,
+  FormItem,
+  FormMessage,
+} from "@/components/ui/form";
+
+const props = defineProps<{
+  documentId: Id<"documents">;
+}>();
+
+const askQuestion = useConvexAction(api.documents.askQuestion);
+const formSchema = toTypedSchema(
+  z.object({
+    question: z.string().min(1),
+  }),
+);
+const form = useForm({ validationSchema: formSchema });
+
+const onSubmit = form.handleSubmit(async (values) => {
+  await askQuestion
+    .mutate({
+      question: values.question,
+      documentId: props.documentId,
+    })
+    .then((res) => {
+      console.log(res);
+      form.resetForm();
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
 </script>

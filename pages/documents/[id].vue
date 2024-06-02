@@ -19,7 +19,7 @@
           class="h-full w-full"
         ></iframe>
       </div>
-      <ChatPanel />
+      <ChatPanel v-if="data" :documentId="data?._id" />
     </div>
   </main>
 </template>

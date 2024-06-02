@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     public: {
       clerkPublishableKey: process.env.CLERK_PUBLISHABLE_KEY,
       convexUrl: process.env.CONVEX_URL,
+      apiKey: process.env.OPENAI_API_KEY,
     },
     clerkSecretKey: process.env.CLERK_SECRET_KEY,
   },
