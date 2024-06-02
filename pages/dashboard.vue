@@ -2,6 +2,7 @@
 import { api } from "@/convex/_generated/api";
 import { useUser } from "vue-clerk";
 import { ConvexQuery } from "@convex-vue/core";
+import { Skeleton } from "~/components/ui/skeleton";
 
 const { isSignedIn } = useUser();
 if (!isSignedIn.value) {
@@ -17,18 +18,35 @@ if (!isSignedIn.value) {
         <UploadDocumentButton />
       </div>
 
-      <div class="grid grid-cols-4 gap-8">
-        <ConvexQuery :query="api.documents.getDocuments" :args="{}">
-          <template #loading>Loading documents</template>
+      <ConvexQuery :query="api.documents.getDocuments" :args="{}">
+        <template #loading
+          ><div class="grid grid-cols-4 gap-8">
+            <Card
+              class="flex flex-col justify-between gap-2 p-6"
+              v-for="i in 7"
+              :key="i"
+              ><Skeleton class="h-[40px] rounded" /><Skeleton
+                class="h-[30px] rounded" /><Skeleton
+                class="h-[40px] w-[80px] rounded"
+            /></Card>
+          </div>
+        </template>
 
-          <template #error="{ error }">{{ error }}</template>
+        <template #error="{ error }">{{ error }}</template>
 
-          <template #empty>No documents</template>
+        <template #empty
+          ><div class="flex flex-col items-center justify-center gap-4 pt-24">
+            <NuxtImg src="no_documents.svg" height="100" width="200" />
+            <h2 class="text-2xl">You have no documents</h2>
+            <UploadDocumentButton />
+          </div>
+        </template>
 
-          <template #default="{ data: documents }">
+        <template #default="{ data: documents }">
+          <div class="grid grid-cols-4 gap-8">
             <DocumentCard v-for="document in documents" :document="document" />
-          </template>
-        </ConvexQuery>
-      </div></main
+          </div>
+        </template>
+      </ConvexQuery></main
   ></ClientOnly>
 </template>
