@@ -1,5 +1,5 @@
 <template>
-  <ClientOnly>
+  <ClientOnly fallbackTag="span">
     <div v-if="!isSignedIn"><NuxtLink to="/sign-in">Sign in</NuxtLink></div>
     <div v-else><UserButton /></div>
   </ClientOnly>

@@ -220,3 +220,17 @@ export const askQuestion = action({
     return chatCompletion.choices[0].message.content;
   },
 });
+
+export const deleteDocument = mutation({
+  args: {
+    documentId: v.id("documents"),
+  },
+  async handler(ctx, args) {
+    const accessObj = await hasAccessToDocument(ctx, args);
+    if (!accessObj) {
+      throw new ConvexError("Document not found");
+    }
+    await ctx.storage.delete(accessObj.document.storageId);
+    await ctx.db.delete(args.documentId);
+  },
+});

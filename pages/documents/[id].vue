@@ -10,19 +10,21 @@
         <h1 class="text-4xl font-bold">
           {{ data.title }}
         </h1>
-        <Tabs default-value="document">
-          <TabsList>
-            <TabsTrigger value="document"> Document </TabsTrigger>
-            <TabsTrigger value="chat"> Chat </TabsTrigger>
-          </TabsList>
+        <Tabs default-value="document"
+          ><div class="flex justify-between">
+            <TabsList>
+              <TabsTrigger value="document"> Document </TabsTrigger>
+              <TabsTrigger value="chat"> Chat </TabsTrigger>
+            </TabsList>
+            <DeleteDocumentButton :documentId="data._id" />
+          </div>
           <TabsContent value="document">
             <div class="flex gap-4">
               <div class="h-[500px] flex-1 rounded-xl bg-[#121212] p-4">
                 <iframe
                   v-if="data?.documentUrl"
                   :src="data?.documentUrl"
-                  class="h-full w-full"
-                ></iframe>
+                  class="h-full w-full"></iframe>
               </div>
             </div>
           </TabsContent>

@@ -7,8 +7,7 @@
             src="logo.png"
             width="50"
             height="50"
-            alt="Logo image"
-          ></NuxtImg
+            alt="Logo image"></NuxtImg
         ></NuxtLink>
 
         <h1 class="text-xl">AiBrain</h1>
@@ -18,10 +17,11 @@
           >
         </nav>
       </div>
-      <div class="flex items-center justify-between gap-4">
-        <ModeToggle />
-        <HeaderActions />
-      </div>
+      <ClientOnly fallbackTag="span"
+        ><div class="flex items-center justify-between gap-4">
+          <ModeToggle />
+          <HeaderActions /></div
+      ></ClientOnly>
     </header>
     <div class="container mx-auto">
       <slot />
