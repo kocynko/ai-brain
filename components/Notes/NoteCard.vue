@@ -9,7 +9,7 @@ defineProps<{
 
 <template>
   <NuxtLink :href="'/dashboard/notes/' + note._id"
-    ><Card class="transition-colors hover:bg-zinc-800">
+    ><Card class="transition-colors hover:bg-zinc-100 dark:hover:bg-zinc-800">
       <CardContent class="p-6"
         >{{ note.text.substring(0, 50) + (note.text.length > 50 ? "..." : "") }}
       </CardContent>

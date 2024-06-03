@@ -28,7 +28,7 @@ const formSchema = toTypedSchema(
     text: z
       .string()
       .min(2, {
-        message: "Note text must be at least 2 characters",
+        message: "Note text must have at least 2 characters",
       })
       .max(5000, { message: "Your text is too long" })
       .default(""),

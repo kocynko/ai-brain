@@ -14,7 +14,8 @@
         </Card>
         <NoteCard v-for="note in notes" :key="note._id" :note="note" v-else />
       </div>
-      <div class="flex-1 rounded-xl bg-zinc-900">
+      <div
+        class="flex-1 rounded-xl bg-zinc-100 transition-colors dark:bg-zinc-900">
         <slot />
       </div>
     </div>
