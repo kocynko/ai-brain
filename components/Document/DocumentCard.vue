@@ -8,7 +8,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import type { Doc } from "~/convex/_generated/dataModel";
-import Button from "./ui/button/Button.vue";
+import Button from "../ui/button/Button.vue";
 import { Eye, Loader2 } from "lucide-vue-next";
 defineProps<{
   document: Doc<"documents">;
@@ -28,7 +28,7 @@ defineProps<{
     </CardContent>
     <CardFooter>
       <Button asChild variant="secondary" class="flex items-center gap-2"
-        ><NuxtLink :href="'/documents/' + document._id"
+        ><NuxtLink :href="'/dashboard/documents/' + document._id"
           ><Eye class="h-4 w-4" /> View</NuxtLink
         >
       </Button></CardFooter

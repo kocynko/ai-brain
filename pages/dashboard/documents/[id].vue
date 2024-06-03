@@ -1,5 +1,5 @@
 <template>
-  <main class="space-y-8 p-24">
+  <main class="container w-full space-y-8">
     <div class="flex items-center justify-between">
       <div v-if="isLoading" class="flex w-full flex-col gap-4">
         <Skeleton class="h-[50px] w-[200px]" />

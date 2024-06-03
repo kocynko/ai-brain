@@ -1,19 +1,25 @@
 <script setup lang="ts">
-import { Button } from "~/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
-  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Upload } from "lucide-vue-next";
+import { Plus } from "lucide-vue-next";
+import { Button } from "~/components/ui/button";
+import CreateNoteForm from "./CreateNoteForm.vue";
+import { useToast } from "../ui/toast";
+const { toast } = useToast();
 const isOpen = ref(false);
 
 function closeDialog() {
   isOpen.value = false;
+  toast({
+    title: "Note created",
+    description: "Your note has been created successfully",
+  });
 }
 </script>
 
@@ -21,17 +27,17 @@ function closeDialog() {
   <Dialog v-model:open="isOpen">
     <DialogTrigger asChild>
       <Button class="flex items-center gap-2"
-        ><Upload class="h-4 w-4" /> Upload document
+        ><Plus class="h-4 w-4" /> Create Note
       </Button>
     </DialogTrigger>
     <DialogContent>
       <DialogHeader>
-        <DialogTitle>Upload a Document</DialogTitle>
+        <DialogTitle>Create a note</DialogTitle>
         <DialogDescription>
-          Upload a team document to search over in the future
+          Create note that will be searchable later on
         </DialogDescription>
       </DialogHeader>
-      <UploadDocumentForm :onUpload="closeDialog" />
+      <CreateNoteForm :on-create-note="closeDialog" />
     </DialogContent>
   </Dialog>
 </template>

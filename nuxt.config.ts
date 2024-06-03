@@ -2,7 +2,11 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   css: ["~/assets/css/tailwind.css"],
-  ssr: false,
+  routeRules: {
+    "/dashboard/documents/**": { ssr: false },
+    "/dashboard": { redirect: "/dashboard/documents" },
+    "/dashboard/notes/**": { ssr: false },
+  },
   modules: [
     "@nuxt/image",
     "@nuxtjs/tailwindcss",
