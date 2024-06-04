@@ -6,6 +6,7 @@ export default defineNuxtConfig({
     "/dashboard/documents/**": { ssr: false },
     "/dashboard": { redirect: "/dashboard/documents" },
     "/dashboard/notes/**": { ssr: false },
+    "/dashboard/search": { ssr: false },
   },
   modules: [
     "@nuxt/image",

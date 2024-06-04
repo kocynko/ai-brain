@@ -4,12 +4,21 @@
       <ul class="space-y-4">
         <li>
           <NuxtLink
+            to="/dashboard/search"
+            class="text-l flex items-center gap-2 transition-colors hover:text-cyan-300"
+            active-class="text-cyan-400">
+            <Search :size="20" />Search</NuxtLink
+          >
+        </li>
+        <li>
+          <NuxtLink
             to="/dashboard/documents"
             class="text-l flex items-center gap-2 transition-colors hover:text-cyan-300"
             active-class="text-cyan-400">
             <Files :size="20" />Documents</NuxtLink
           >
         </li>
+
         <li>
           <NuxtLink
             to="/dashboard/notes"
@@ -33,5 +42,5 @@
   </div>
 </template>
 <script setup lang="ts">
-import { Files, NotebookPen, Settings } from "lucide-vue-next";
+import { Files, NotebookPen, Search, Settings } from "lucide-vue-next";
 </script>

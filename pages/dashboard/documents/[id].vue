@@ -43,6 +43,7 @@ import { useConvexQuery } from "@convex-vue/core";
 import type { Id } from "~/convex/_generated/dataModel";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "~/components/ui/skeleton";
+import DeleteDocumentButton from "~/components/Document/DeleteDocumentButton.vue";
 
 const route = useRoute();
 const { data, isLoading, error } = useConvexQuery(api.documents.getDocument, {

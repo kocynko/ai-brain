@@ -1,5 +1,54 @@
 import { ConvexError, v } from "convex/values";
-import { internalQuery, mutation, query } from "./_generated/server";
+import {
+  action,
+  internalAction,
+  internalMutation,
+  internalQuery,
+  mutation,
+  query,
+} from "./_generated/server";
+
+import OpenAI from "openai";
+import { api, internal } from "./_generated/api";
+import { Doc } from "./_generated/dataModel";
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+
+export const embed = async (text: string) => {
+  const emmbedding = await openai.embeddings.create({
+    model: "text-embedding-3-small",
+    dimensions: 1536,
+    input: text,
+  });
+  return emmbedding.data[0].embedding;
+};
+export const setNoteEmbedding = internalMutation({
+  args: {
+    noteId: v.id("notes"),
+    embedding: v.array(v.float64()),
+  },
+  async handler(ctx, args) {
+    const note = await ctx.db.patch(args.noteId, {
+      embedding: args.embedding,
+    });
+    return note;
+  },
+});
+
+export const createNoteEmbedding = internalAction({
+  args: {
+    noteId: v.id("notes"),
+    text: v.string(),
+  },
+  async handler(ctx, args) {
+    const embedding = await embed(args.text);
+    await ctx.runMutation(internal.notes.setNoteEmbedding, {
+      noteId: args.noteId,
+      embedding,
+    });
+  },
+});
 
 export const createNote = mutation({
   args: {
@@ -10,11 +59,16 @@ export const createNote = mutation({
     if (!userId) {
       throw new ConvexError("Not authenticated");
     }
-    const note = await ctx.db.insert("notes", {
+
+    const noteId = await ctx.db.insert("notes", {
       tokenIdentifier: userId,
       text: args.text,
     });
-    return note;
+
+    await ctx.scheduler.runAfter(0, internal.notes.createNoteEmbedding, {
+      noteId: noteId,
+      text: args.text,
+    });
   },
 });
 
