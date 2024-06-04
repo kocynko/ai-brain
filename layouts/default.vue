@@ -14,6 +14,10 @@
         <h1 class="text-2xl">AiBrain</h1>
 
         <nav>
+          <OrganizationSwitcher
+            :appearance="{
+              baseTheme: choosedTheme === 'dark' ? dark : undefined,
+            }" />
           <NuxtLink
             href="/dashboard"
             class="ml-4 text-2xl transition-colors hover:text-red-600"
@@ -38,4 +42,7 @@
 <script setup lang="ts">
 import ModeToggle from "~/components/ModeToggle.vue";
 import HeaderActions from "~/components/HeaderActions.vue";
+import { OrganizationSwitcher } from "vue-clerk";
+import { dark } from "@clerk/themes";
+const choosedTheme = computed(() => useColorMode().value);
 </script>

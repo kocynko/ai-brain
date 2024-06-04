@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@clerk/clerk-js": "^5.5.3",
+    "@clerk/themes": "^2.1.8",
     "@convex-vue/core": "^0.0.4",
     "@nuxt/image": "^1.7.0",
     "@vee-validate/zod": "^4.12.8",
